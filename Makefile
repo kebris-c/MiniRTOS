@@ -44,8 +44,11 @@ else
 	B_MAIN_OBJ	=
 endif
 SRCS		= \
-			  rtos.c \
-			  utils.c
+				drivers.c \
+				queue.c \
+				rtos.c \
+				tasks.c \
+				utils.c
 B_SRCS		= $(SRCS)
 
 #	Shell variable

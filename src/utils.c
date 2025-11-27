@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kebris-c <kebris-c@student.42madrid.c      +#+  +:+       +#+        */
+/*   By: kebris-c <kebris-c@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 18:47:57 by kebris-c          #+#    #+#             */
-/*   Updated: 2025/11/17 18:48:05 by kebris-c         ###   ########.fr       */
+/*   Updated: 2025/11/27 02:59:53 by kebris-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 /*==============================================
 	TIMING FUNCTIONS
 ================================================*/
+/*
+ * get_time_ms():
+ *	Returns system time in milliseconds.
+ *	- Uses gettimeofday internally.
+ *	- Used for scheduling and task delays.
+ */
 unsigned long	get_time_ms(void)
 {
 	t_timeval	tv;

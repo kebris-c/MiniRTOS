@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rtos.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kebris-c <kebris-c@student.42madrid.c      +#+  +:+       +#+        */
+/*   By: kebris-c <kebris-c@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 18:46:17 by kebris-c          #+#    #+#             */
-/*   Updated: 2025/11/19 11:05:19 by kebris-c         ###   ########.fr       */
+/*   Updated: 2025/11/27 01:58:41 by kebris-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,17 @@
 ==============================================================================*/
 # define MAX_TASKS	3
 
-# define MAX_QUEUES	2
+# define MAX_QUEUES	3
 # define CAPACITY	6
 # define ITEM_SIZE	2
+# define QUEUE_SENSOR 0
+# define QUEUE_PROC 1
+# define QUEUE_LOGGER 2
+
+# define THRESH_CRITICAL 85
+# define THRESH_HIGH 70
+# define THRESH_MID 50
+# define THRESH_LOW 30
 
 /*==============================================================================
 		TYPEDEFS
@@ -49,6 +57,7 @@ typedef enum e_task_state
 typedef struct s_tcb
 {
 	int				id;
+	int				pc;
 	t_task_state	state;
 	t_task_func		func;
 	void			*arg;
@@ -71,32 +80,34 @@ typedef struct timeval t_timeval;
 /*==============================================================================
 		EXTERNS GLOBALS
 ==============================================================================*/
-extern t_msg_queue	g_queue[MAX_QUEUES];
-extern t_tcb		g_task_list[MAX_TASKS];
+extern t_msg_queue	g_queues[MAX_QUEUES];
+
 extern t_tcb		*g_curr_task;
+extern t_tcb		g_task_list[MAX_TASKS];
+extern int			g_task_blocked_on[MAX_TASKS];
 extern int			g_num_tasks;
 
 /*==============================================================================
 		PROTOTYPES
 ==============================================================================*/
 //	rtos.c
-int		rtos_init(void);
-int		rtos_task_create(t_task_func func, void *arg, unsigned int period_ms);
-void	rtos_start(void);
-void	rtos_delay(unsigned int ms);
-void	rtos_yield(void);
+int				rtos_init(void);
+int				rtos_task_create(t_task_func func, void *arg, unsigned int period_ms);
+void			rtos_start(void);
+void			rtos_delay(unsigned int ms);
+void			rtos_yield(void);
 //	tasks.c
-void	task_sensor(void *arg);
-void	task_proc(void *arg);
-void	task_thermal(void *arg);
-//	src/queue.c
-int		queue_init(void);
-int		queue_send_msg(int queue_id, const void *data, size_t size);
-int		queue_recv_msg(int queue_id, void *buffer, size_t *size);
-//	driver_adc.c
-int		driver_adc_read(void);
-//	driver_uart.c
-int		driver_uart(void);
+void			task_sensor(void *arg);
+void			task_proc(void *arg);
+void			task_logger(void *arg);
+//	queue.c
+int				queue_init(void);
+int				queue_send_msg(int queue_id, const void *data, size_t size);
+int				queue_recv_msg(int queue_id, void *buffer, size_t size);
+//	drivers.c
+int				driver_adc_read(void);
+void			driver_uart_send(const void *buffer, size_t len);
+void			driver_fan_set(int fan_id, int speed_percent);
 //	utils.c
 unsigned long	get_time_ms(void);
 

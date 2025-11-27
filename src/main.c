@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kebris-c <kebris-c@student.42madrid.c      +#+  +:+       +#+        */
+/*   By: kebris-c <kebris-c@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 18:44:49 by kebris-c          #+#    #+#             */
-/*   Updated: 2025/11/18 21:08:05 by kebris-c         ###   ########.fr       */
+/*   Updated: 2025/11/27 01:05:56 by kebris-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	main(void)
 		return (1);
 	}
 
-	if (rtos_task_create(task_sensor, NULL, 500) == -1 \
-		|| rtos_task_create(task_proc, NULL, 1000) == -1 \
-		|| rtos_task_create(task_thermal, NULL, 1000) == -1)
+	if (rtos_task_create(task_sensor, NULL, 250) == -1 \
+		|| rtos_task_create(task_proc, NULL, 500) == -1 \
+		|| rtos_task_create(task_logger, NULL, 750) == -1)
 	{
 		printf("Error\nrtos_task_create failed\n");
 		return (1);
